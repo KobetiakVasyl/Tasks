@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 
         let task = await Task.findOne({_id: id});
         if(!task) throw new Error('There i\'s no such task');
-        console.log(task.userId);
+
         if(usersIdArr.includes(`${task.userId}`)) throw new Error(`Cannot share task with it creator (${task.createdBy})`);
 
         task.sharedWith = task.sharedWith.concat(usersIdArr).unique();

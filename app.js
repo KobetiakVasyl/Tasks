@@ -11,13 +11,14 @@ require('dotenv').config();
 require('./models/Task');
 require('./models/User');
 
-mongoose.connect("mongodb+srv://KobetiakVasyl:28147576@tasks-asmup.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true});
+mongoose.connect(`${process.env.DATABASE_URL}`, {useNewUrlParser: true});
 
 const db = mongoose.connection;
 db.once('open', () => console.log('Connected to the database'));
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
+
 app.use(cors());
 app.use(favicon(__dirname + '/build/favicon.ico'));
 app.use(express.json());
@@ -25,12 +26,16 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.use(serveStatic(__dirname + '/build'));
-app.get('*', function (req, res) {
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/build/index.html');
 });
 
 const apiRouter = require('./routes/apiRouter');
 app.use('/api', apiRouter);
+
+app.use("*", function (req, res) {
+    res.redirect('/');
+});
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, err => {
