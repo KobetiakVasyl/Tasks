@@ -23,16 +23,13 @@ app.use(favicon(__dirname + '/build/favicon.ico'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, 'build')));
 
-app.use(serveStatic(__dirname + 'build'));
-app.use("*", function (req, res) {
+app.use(serveStatic(__dirname + '/build'));
+app.get('*', function (req, res) {
     res.sendFile(__dirname + '/build/index.html');
 });
 
 const apiRouter = require('./routes/apiRouter');
-
 app.use('/api', apiRouter);
 
 const PORT = process.env.PORT || 3002;
