@@ -11,7 +11,7 @@ require('dotenv').config();
 require('./models/Task');
 require('./models/User');
 
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://KobetiakVasyl:28147576@tasks-asmup.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true});
 
 const db = mongoose.connection;
 db.once('open', () => console.log('Connected to the database'));
